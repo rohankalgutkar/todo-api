@@ -56,7 +56,6 @@ app.patch('/todos/:id', (req, res) => {
     body.completedAt = null;
   }
 
-console.log(body);
   Todo.findByIdAndUpdate(id, {
     $set: body
   }, {
@@ -70,6 +69,19 @@ console.log(body);
     });
   }).catch((e) => {
     res.status(400).send();
+  });
+});
+
+// User Routes
+app.post('/users', (req, res) => {
+
+  var body = _.pick(req.body, ['email','password'])
+  var user = new User(body);
+
+  user.save().then((user) => {
+    res.send(user);
+  }, (e) => {
+    res.status(400).send(e);
   });
 });
 
